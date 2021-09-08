@@ -50,6 +50,33 @@ PlannerInterface<n>::PlannerInterface()
 	v_start.push_back(15);
 	v_goal.push_back(85);
 	v_goal.push_back(85);
+  //deffault obstacles
+	planner::ObstaclePtr<n> object1   = new planner::Object<n>();
+	planner::State<n> vert;
+	vert[0] =25;
+	vert[1] = 44;
+	object1->radius =10;
+	object1->vertices.push_back(vert);
+	objects.push_back(object1);
+
+	planner::ObstaclePtr<n> object2   = new planner::Object<n>();
+	planner::State<n> vert2;
+	vert2[0] =44;
+	vert2[1] = 52;
+	object2->radius =15;
+	object2->vertices.push_back(vert2);
+
+	objects.push_back(object2);
+
+	planner::ObstaclePtr<n> object3   = new planner::Object<n>();
+	planner::State<n> vert3;
+
+	vert3[0] =72;
+	vert3[1] = 44;
+	object3->radius =5 ;
+	object3->vertices.push_back(vert3);
+
+	objects.push_back(object3);
     
     /*Obstacle object1 = new Object();
     object1.radius =15;
@@ -117,6 +144,9 @@ template<int n>
  template<int n>
  void PlannerInterface<n>::visualizeObstacles(const ros::Publisher& vis_pub)
  {
+ 	int cnt = 10000;
+ 	while(cnt-- > 0)
+ 	{
  	for(int i=0; i<(this->objects).size();i++)
  	{
  		visualization_msgs::Marker marker;
@@ -131,14 +161,16 @@ template<int n>
  		marker.pose.position.z = 0;
 
  		marker.scale.x = ((this->objects)[i])->radius;
- 		marker.scale.y = 0.2;
- 		marker.scale.z = 0.3;
+ 		marker.scale.y = ((this->objects)[i])->radius;
+ 		marker.scale.z = 0;
  		marker.color.a = 1.0; // Don't forget to set the alpha!
- 		marker.color.r = 0.5;
- 		marker.color.g = 0.5;
- 		marker.color.b = 0.5;
- 		vis_pub.publish( marker );
+ 		marker.color.r = 1.0;
+ 		marker.color.g = 0;
+ 		marker.color.b = 0;
+ 		vis_pub.publish(marker);
+ 		std::cout<<"Object"<<i+1<< "displayed r="<<((this->objects)[i])->radius<<"      x="<<((this->objects[i]))->vertices[0][0]<<std::endl;
  	}
+ }
  }
 
 template<int n>

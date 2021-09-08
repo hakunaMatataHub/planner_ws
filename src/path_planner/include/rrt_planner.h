@@ -151,7 +151,7 @@ namespace planner
         if(collisionCheck(nextWp))  
 	  	//check for obstacle collison along edge
         {
-        	    	std::cout<<"hi i am here 6"<<std::endl;
+        	    	std::cout<<"hi i am here 66666666666666666666"<<std::endl;
 
         	delete nextWp;
         	continue;
@@ -191,6 +191,8 @@ namespace planner
 	{
 		PathPlanner<n>::maxStepSize = _maxStepSize;
 		PathPlanner<n>::goalTol = _goalTol;
+
+
 		for(int i=0;i<ss_min.size();i++)
 		{
 			this->ss_min.push_back(ss_min[i]);
@@ -241,15 +243,25 @@ namespace planner
 			State<n> c = (wp->prevWps[0])->coordinates;
 			double  perp_dist = abs((((a-c).cross(b-c)).norm())/(b-c).norm());
 			if(wp->distance(object->vertices[0]) <= object->radius)
+			{	
+				//std::cout<<" collision1 "<<wp->distance(object->vertices[0]) <<" is less than"<<object->radius<<std::endl;
 				collision = true;
-			if((wp->prevWps[0])->distance(object->vertices[0])<=object->radius)
+			}
+			else if((wp->prevWps[0])->distance(object->vertices[0])<=object->radius)
+			{
+				//std::cout<<" collision2 "<<(wp->prevWps[0])->distance(object->vertices[0]) <<" is less than"<<object->radius<<std::endl;
+
 				collision = true;
-			if(perp_dist>=(object->radius))
+			}
+			/*if(perp_dist>=(object->radius))
 				collision = false;
 			if(perp_dist<=(object->radius) && (((c-a).dot(b-c))*((b-a).dot(b-c)))>0)
-				collision = false;
+				collision = false;*/
 			else if(perp_dist<=(object->radius) && (((c-a).dot(b-c))*((b-a).dot(b-c)))<=0)
 				collision = true;
+
+			if(collision==true)
+				break;
 
 		}
 
